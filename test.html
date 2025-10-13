@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris - System Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        .status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .status.checking {
+            background: #fbbf24;
+            color: #000;
+        }
+        .status.success {
+            background: #10b981;
+            color: white;
+        }
+        .status.error {
+            background: #ef4444;
+            color: white;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .info {
+            background: rgba(59, 130, 246, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+        .link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 TETRIS</h1>
+        <p class="subtitle">System Test Page</p>
+        
+        <div class="test-section">
+            <h2>🔍 System Checks</h2>
+            
+            <div class="test-item">
+                <span>Frontend Server (Port 3000)</span>
+                <span class="status checking" id="frontend-status">Checking...</span>
+            </div>
+            
+            <div class="test-item">
+                <span>Backend API (Port 5000)</span>
+                <span class="status checking" id="backend-status">Checking...</span>
+            </div>
+            
+            <div class="test-item">
+                <span>Database Connection</span>
+                <span class="status checking" id="database-status">Checking...</span>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>📋 Instructions</h3>
+            <p><strong>Before running this test:</strong></p>
+            <ol>
+                <li>Make sure you've run <code>setup.bat</code> (Windows) or installed dependencies</li>
+                <li>Start the servers using <code>start.bat</code> or <code>npm run dev</code></li>
+                <li>Then refresh this page or click the button below</li>
+            </ol>
+        </div>
+
+        <button onclick="runTests()">🔄 Run Tests Again</button>
+
+        <div class="info" style="margin-top: 30px;">
+            <h3>🔗 Quick Links</h3>
+            <p>
+                <a href="http://localhost:3000" class="link" target="_blank">🎮 Play Tetris</a><br>
+                <a href="http://localhost:3000/dashboard" class="link" target="_blank">📊 Dashboard</a><br>
+                <a href="http://localhost:5000/api/health" class="link" target="_blank">🔧 API Health Check</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        async function checkFrontend() {
+            const statusEl = document.getElementById('frontend-status');
+            try {
+                const response = await fetch('http://localhost:3000', { mode: 'no-cors' });
+                statusEl.textContent = '✓ Running';
+                statusEl.className = 'status success';
+                return true;
+            } catch (error) {
+                statusEl.textContent = '✗ Not Running';
+                statusEl.className = 'status error';
+                return false;
+            }
+        }
+
+        async function checkBackend() {
+            const statusEl = document.getElementById('backend-status');
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                statusEl.textContent = '✓ Running';
+                statusEl.className = 'status success';
+                return data;
+            } catch (error) {
+                statusEl.textContent = '✗ Not Running';
+                statusEl.className = 'status error';
+                return null;
+            }
+        }
+
+        async function checkDatabase() {
+            const statusEl = document.getElementById('database-status');
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                
+                if (data.database === 'connected') {
+                    statusEl.textContent = '✓ Connected (MongoDB)';
+                    statusEl.className = 'status success';
+                } else {
+                    statusEl.textContent = '⚠ In-Memory Mode';
+                    statusEl.className = 'status checking';
+                }
+                return data.database === 'connected';
+            } catch (error) {
+                statusEl.textContent = '✗ Cannot Check';
+                statusEl.className = 'status error';
+                return false;
+            }
+        }
+
+        async function runTests() {
+            // Reset statuses
+            document.getElementById('frontend-status').textContent = 'Checking...';
+            document.getElementById('frontend-status').className = 'status checking';
+            document.getElementById('backend-status').textContent = 'Checking...';
+            document.getElementById('backend-status').className = 'status checking';
+            document.getElementById('database-status').textContent = 'Checking...';
+            document.getElementById('database-status').className = 'status checking';
+
+            // Run tests
+            await checkFrontend();
+            await checkBackend();
+            await checkDatabase();
+        }
+
+        // Run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>
+

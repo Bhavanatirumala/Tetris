@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  }
+  
+  .tetris-block {
+    @apply border-2 border-opacity-50 transition-all duration-100;
+  }
+  
+  .game-button {
+    @apply px-6 py-3 rounded-lg font-bold text-white transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg;
+  }
+  
+  .neon-text {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+  
+  .stat-card {
+    @apply glass-effect rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:bg-white/20;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
