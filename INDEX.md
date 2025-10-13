@@ -66,6 +66,14 @@ Welcome to the Tetris game documentation! This index will help you find the info
 
 ### Essential Documents
 
+#### 📥 [INSTALL_NODE.md](INSTALL_NODE.md) & [INSTALL_GUIDE_VISUAL.md](INSTALL_GUIDE_VISUAL.md)
+**Best for:** Installing Node.js & npm (required!)
+**Contains:**
+- How to download and install Node.js
+- npm installation (comes with Node.js)
+- Step-by-step with screenshots descriptions
+- Troubleshooting installation issues
+
 #### 📘 [GET_STARTED.md](GET_STARTED.md)
 **Best for:** Complete beginners  
 **Contains:**

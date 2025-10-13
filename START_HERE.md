@@ -39,7 +39,9 @@ npm run dev
 ## ⚠️ IMPORTANT: First-Time Setup
 
 ### Before You Start:
-1. **Install Node.js** from https://nodejs.org/ (if not installed)
+1. **Install Node.js & npm** (if not installed)
+   - 📘 **Need help?** Read [INSTALL_NODE.md](INSTALL_NODE.md) or [INSTALL_GUIDE_VISUAL.md](INSTALL_GUIDE_VISUAL.md)
+   - 🌐 **Quick download:** https://nodejs.org/ (click LTS button)
 2. **Restart your terminal** after installing Node.js
 3. **Run the setup** (see above)
 4. **Start playing!**
